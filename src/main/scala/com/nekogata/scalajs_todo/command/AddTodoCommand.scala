@@ -38,8 +38,7 @@ class AddTodoCommand {
 
   def isExecutable = isTodoInputValid && isDueDateInputValid
 
-  def toTodo = Todo(todoInput, dueDate, LocalDateTime.now, false)
-
+  def buildTodo = Todo(todoInput, dueDate, LocalDateTime.now, false)
 
   private def dueDate = {
     LocalDate.parse(dueDateInput)

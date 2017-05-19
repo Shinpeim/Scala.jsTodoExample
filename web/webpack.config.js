@@ -27,7 +27,7 @@ module.exports = {
         loaders: [
             {
                 test: /\.js$/,
-                exclude: /node_modules/,
+                exclude: /(scalajs|node_modules)/,
                 loader: 'babel-loader',
                 query:{
                    compact: false
@@ -42,5 +42,9 @@ module.exports = {
                 loader: "style-loader!css-loader"
             }
         ]
-    }
+    },
+
+    plugins: [
+        //new webpack.optimize.UglifyJsPlugin()
+    ]
 };

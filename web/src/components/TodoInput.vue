@@ -55,6 +55,9 @@
         methods:{
             submit(){
                 this.todoService.executeAddCommand();
+
+                //一旦fetchのテストここでやる
+                console.log(this.todoService.fetchTodos());
             }
         }
     }
