@@ -1,15 +1,20 @@
 <template>
-    <div>Application of {{mew}}</div>
+    <div>
+        <navigation-header></navigation-header>
+        <div class="container">
+            <todo-input></todo-input>
+        </div>
+    </div>
 </template>
 
 <script>
-    import {Nyan} from '../../../target/scala-2.12/scalajstodo-fastopt'
+    import NavigationHeader from './NavigationHeader.vue'
+    import TodoInput from './TodoInput.vue'
 
     export default {
-        data(){
-            return {
-                mew: (new Nyan()).mew()
-            }
+        components: {
+            NavigationHeader,
+            TodoInput
         }
     }
 </script>

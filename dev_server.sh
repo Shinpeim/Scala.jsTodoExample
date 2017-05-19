@@ -1,2 +1,2 @@
 #!/bin/sh
-foreman start
+exec foreman start
