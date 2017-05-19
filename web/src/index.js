@@ -1,4 +1,13 @@
-import {Nyan} from '../../target/scala-2.12/scalajstodo-fastopt'
+import Vue from 'vue'
 
-const nyan = new Nyan();
-console.log(nyan.mew());
+import Application from './components/Application.vue'
+
+const opts = {
+    template: "<application></application>",
+    components:{
+        Application
+    }
+};
+
+const app = new Vue(opts);
+app.$mount("#main");
