@@ -1,7 +1,6 @@
 package com.nekogata.scalajs_todo.usecase.command.add_todo
 
-import com.nekogata.scalajs_todo.domain.Todo
-import org.threeten.bp.{LocalDate, LocalDateTime}
+import org.threeten.bp.LocalDate
 
 trait Command {
   protected val addTodoService: Service
@@ -34,9 +33,7 @@ trait Command {
 
   def isExecutable = isTodoInputValid && isDueDateInputValid
 
-  def buildTodo = Todo(todoInput, dueDate, LocalDateTime.now, false)
-
-  private def dueDate = {
+  def dueDate = {
     LocalDate.parse(dueDateInput)
   }
 }

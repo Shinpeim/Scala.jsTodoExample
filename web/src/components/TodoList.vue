@@ -20,7 +20,7 @@
                     <td>{{t.dueDate}}</td>
                     <td>
                         <span v-if="t.done">done</span>
-                        <a class="btn brown" v-else><i class="material-icons">done</i></a>
+                        <a class="btn brown" v-else><i class="material-icons" @click="makeDone(t.id)">done</i></a>
                     </td>
                 </tr>
                 </tbody>
@@ -29,7 +29,7 @@
     </div>
 </template>
 <script>
-    import {TodoQuery} from '../../../target/scala-2.12/scalajstodo-fastopt'
+    import {TodoQuery, MakeTodoDoneCommand} from '../../../target/scala-2.12/scalajstodo-fastopt'
 
     export default {
         beforeCreate(){
@@ -41,6 +41,13 @@
             setInterval(() => {
                 this.todos = this.todoQuery.all()
             }, 100);
+        },
+
+        methods:{
+            makeDone(id){
+                const command = new MakeTodoDoneCommand();
+                command.execute(id);
+            }
         },
 
         data(){

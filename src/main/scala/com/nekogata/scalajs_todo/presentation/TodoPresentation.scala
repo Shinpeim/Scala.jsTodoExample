@@ -7,6 +7,7 @@ import scala.scalajs.js
 
 class TodoPresentation(t: Todo) {
   def asJs():js.Dictionary[Any] = js.Dictionary(
+    "id" -> t.id,
     "body" -> t.body,
     "dueDate" -> t.dueDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
     "isOverdue" -> t.isOverdue,
