@@ -9,7 +9,9 @@ trait Query {
   protected val repository: TodoRepository
 
   def all() = {
-    val todos = repository.all().map(t => new TodoPresentation(t).asJs())
+    val todos = repository.all().sortWith(_.createdAt > _.createdAt).
+      map(t => new TodoPresentation(t).asJs())
+
     js.Array(todos: _*)
   }
 }
