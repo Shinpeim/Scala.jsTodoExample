@@ -25,11 +25,11 @@
     </div>
 </template>
 <script>
-    import {TodoService} from '../../../target/scala-2.12/scalajstodo-fastopt'
+    import {AddTodoCommand} from '../../../target/scala-2.12/scalajstodo-fastopt'
 
     export default {
         beforeCreate(){
-            this.todoService = new TodoService;
+            this.addTodoCommand = new AddTodoCommand;
         },
 
         data(){
@@ -43,21 +43,18 @@
 
         watch: {
             todoInput(v){
-                this.todoService.addCommand.todoInput = v;
-                this.isTodoInputValid = this.todoService.addCommand.isTodoInputValid;
+                this.addTodoCommand.todoInput = v;
+                this.isTodoInputValid = this.addTodoCommand.isTodoInputValid;
             },
             dueDateInput(v){
-                this.todoService.addCommand.dueDateInput = v;
-                this.isDueDateInputValid  = this.todoService.addCommand.isDueDateInputValid;
+                this.addTodoCommand.dueDateInput = v;
+                this.isDueDateInputValid  = this.addTodoCommand.isDueDateInputValid;
             }
         },
 
         methods:{
             submit(){
-                this.todoService.executeAddCommand();
-
-                //一旦fetchのテストここでやる
-                console.log(this.todoService.fetchTodos());
+                this.addTodoCommand.execute();
             }
         }
     }

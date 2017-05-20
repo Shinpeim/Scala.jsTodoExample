@@ -1,31 +1,25 @@
-package com.nekogata.scalajs_todo.command
+package com.nekogata.scalajs_todo.usecase.command.add_todo
 
 import com.nekogata.scalajs_todo.domain.Todo
 import org.threeten.bp.{LocalDate, LocalDateTime}
 
-import scala.scalajs.js.annotation.JSExport
+trait Command {
+  protected val addTodoService: Service
 
-class AddTodoCommand {
   private var _todoInput = ""
   private var _dueDateInput = ""
 
-  @JSExport
   def todoInput = _todoInput
-  @JSExport
   def todoInput_=(v: String) {
     _todoInput = v
   }
 
-  @JSExport
   def dueDateInput = _dueDateInput
-  @JSExport
   def dueDateInput_=(v: String) {
     _dueDateInput = v
   }
 
-  @JSExport
   def isTodoInputValid = _todoInput != ""
-  @JSExport
   def isDueDateInputValid = {
     val ret:Boolean = try {
       dueDate
@@ -35,6 +29,8 @@ class AddTodoCommand {
     }
     ret
   }
+
+  def execute() = addTodoService.execute(this)
 
   def isExecutable = isTodoInputValid && isDueDateInputValid
 
