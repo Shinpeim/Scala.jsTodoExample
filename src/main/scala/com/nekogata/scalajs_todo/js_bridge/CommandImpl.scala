@@ -1,9 +1,11 @@
-package com.nekogata.scalajs_todo.usecase.command.add_todo
+package com.nekogata.scalajs_todo.js_bridge
+
+import com.nekogata.scalajs_todo.usecase.command.add_todo.{Command, ServiceImpl}
 
 import scala.scalajs.js.annotation.{JSExport, JSExportTopLevel}
 
 @JSExportTopLevel("AddTodoCommand")
-class CommandImpl extends Command {
+class AddTodoCommand extends Command {
   protected val addTodoService = new ServiceImpl
 
   @JSExport
