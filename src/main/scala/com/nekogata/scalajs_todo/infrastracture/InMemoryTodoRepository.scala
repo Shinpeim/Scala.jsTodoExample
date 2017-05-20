@@ -1,6 +1,7 @@
 package com.nekogata.scalajs_todo.infrastracture
 
 import com.nekogata.scalajs_todo.domain.{Todo, TodoRepository}
+import com.nekogata.scalajs_todo.js_bridge.TodoRepositoryChanged
 
 class InMemoryTodoRepository extends TodoRepository{
   def nextId() = {
@@ -20,6 +21,7 @@ class InMemoryTodoRepository extends TodoRepository{
         companion.todos = companion.todos ++ Seq(todo)
       }
     }
+    TodoRepositoryChanged.fire()
   }
 
   def all = InMemoryTodoRepository.todos

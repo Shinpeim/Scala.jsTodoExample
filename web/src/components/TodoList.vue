@@ -29,7 +29,7 @@
     </div>
 </template>
 <script>
-    import {TodoQuery, MakeTodoDoneCommand} from '../../../target/scala-2.12/scalajstodo-fastopt'
+    import {TodoQuery, MakeTodoDoneCommand, TodoRepositoryChanged} from '../../../target/scala-2.12/scalajstodo-fastopt'
 
     export default {
         beforeCreate(){
@@ -37,10 +37,14 @@
         },
 
         created(){
-            //ひとまず 1秒ずつqueryする
-            setInterval(() => {
+            this.subscription = TodoRepositoryChanged.subscribe(() => {
+                console.log("@@@@@@@@@@@@@@@");
                 this.todos = this.todoQuery.all()
             }, 100);
+        },
+
+        beforeDestroy(){
+            this.subscription.unsubscribe();
         },
 
         methods:{
