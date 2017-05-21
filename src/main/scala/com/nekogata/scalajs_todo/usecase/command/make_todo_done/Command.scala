@@ -1,14 +1,10 @@
 package com.nekogata.scalajs_todo.usecase.command.make_todo_done
 
-import com.nekogata.scalajs_todo.domain.{Todo, TodoRepository}
+import com.nekogata.scalajs_todo.domain.TodoRepository
 
 trait Command {
   val repository: TodoRepository
+  val service: Service
 
-  def execute(id: Int) = {
-    val todo = repository.find(id).foreach {t =>
-      val doneTodo = t.makeDone
-      repository.store(doneTodo)
-    }
-  }
+  def execute(id: Int) = service.execute(id)
 }

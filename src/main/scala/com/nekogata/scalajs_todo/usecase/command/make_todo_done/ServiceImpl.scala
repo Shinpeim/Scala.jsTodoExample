@@ -1,4 +1,4 @@
-package com.nekogata.scalajs_todo.usecase.command.add_todo
+package com.nekogata.scalajs_todo.usecase.command.make_todo_done
 
 import com.nekogata.scalajs_todo.infrastracture.TodoRepositoryImpl
 
