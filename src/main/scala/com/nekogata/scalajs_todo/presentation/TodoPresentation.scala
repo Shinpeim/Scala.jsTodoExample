@@ -12,7 +12,8 @@ class TodoPresentation(t: Todo) {
     "dueDate" -> t.dueDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
     "isOverdue" -> t.isOverdue,
     "craetedAT" -> t.createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")),
-    "done" -> t.done
+    "done" -> t.done,
+    "synchronizing" -> t.synchronizing
   )
 }
 

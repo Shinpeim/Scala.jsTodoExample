@@ -12,15 +12,33 @@
                     <th>Boby</th>
                     <td>Due Date</td>
                     <td>Done</td>
+                    <td>Syncronizing</td>
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-for="t in todos" :class="{overdue: t.isOverdue}">
-                    <td>{{t.body}}</td>
+                    <td>
+                        {{t.body}}
+                    </td>
                     <td>{{t.dueDate}}</td>
                     <td>
                         <span v-if="t.done">done</span>
-                        <a class="btn brown" v-else><i class="material-icons" @click="makeDone(t.id)">done</i></a>
+                        <a v-else class="btn brown" @click="makeDone(t.id)"><i class="material-icons">done</i></a>
+                    </td>
+                    <td>
+                        <div class="preloader-wrapper small active" v-if="t.synchronizing">
+                            <div class="spinner-layer spinner-brown-only">
+                                <div class="circle-clipper left">
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="gap-patch">
+                                    <div class="circle"></div>
+                                </div>
+                                <div class="circle-clipper right">
+                                    <div class="circle"></div>
+                                </div>
+                            </div>
+                        </div>
                     </td>
                 </tr>
                 </tbody>
