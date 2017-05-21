@@ -38,9 +38,8 @@
 
         created(){
             this.subscription = TodoRepositoryChanged.subscribe(() => {
-                console.log("@@@@@@@@@@@@@@@");
                 this.todos = this.todoQuery.all()
-            }, 100);
+            });
         },
 
         beforeDestroy(){
