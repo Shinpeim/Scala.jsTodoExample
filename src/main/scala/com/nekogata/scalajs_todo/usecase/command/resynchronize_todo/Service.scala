@@ -1,4 +1,4 @@
-package com.nekogata.scalajs_todo.usecase.command.make_todo_done
+package com.nekogata.scalajs_todo.usecase.command.resynchronize_todo
 
 import com.nekogata.scalajs_todo.domain.TodoRepository
 import com.nekogata.scalajs_todo.js_bridge.UpdateTodoRequestFailed
@@ -9,16 +9,13 @@ trait Service {
   protected val repository: TodoRepository
 
   def execute(id: Int) = {
-    repository.find(id).foreach {oldTodo =>
-      val doneTodo = oldTodo.makeDone
-
+    repository.find(id).foreach {todo =>
       for {
-        isSucceeded <- repository.storeThenSync(doneTodo)
+        isSucceeded <- repository.sync(todo)
       } {
         if (isSucceeded) {
-          repository.store(doneTodo.synchronized)
+          repository.store(todo.synchronized)
         } else {
-          repository.store(doneTodo.synchronizeFailed)
           UpdateTodoRequestFailed.fire()
         }
       }

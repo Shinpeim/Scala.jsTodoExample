@@ -10,30 +10,23 @@ trait Service {
   protected val repository: TodoRepository
 
   def execute(command: Command) = {
-    val todo = buildTodo(command)
-
     if ( command.isExecutable ) {
+      val todo = Todo.open(
+        id = repository.nextId(),
+        body = command.todoInput,
+        dueDate = command.dueDate
+      )
+
       for {
         isSucceeded <- repository.storeThenSync(todo)
       } {
-        println(isSucceeded)
         if ( isSucceeded ) {
           repository.store(todo.synchronized)
         } else {
-          repository.destroy(todo)
+          repository.store(todo.synchronizeFailed)
           AddTodoRequestFailed.fire()
         }
       }
     }
   }
-
-  private def buildTodo(c: Command) =
-    Todo(
-      id = repository.nextId(),
-      body = c.todoInput,
-      dueDate = c.dueDate,
-      createdAt = LocalDateTime.now,
-      done = false,
-      synchronizing = true
-    )
 }

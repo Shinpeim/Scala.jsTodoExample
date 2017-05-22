@@ -26,7 +26,7 @@
                         <a v-else class="btn brown" @click="makeDone(t.id)"><i class="material-icons">done</i></a>
                     </td>
                     <td>
-                        <div class="preloader-wrapper small active" v-if="t.synchronizing">
+                        <div class="preloader-wrapper small active" v-if="t.synchronizingStatus == 'synchronizing'">
                             <div class="spinner-layer spinner-brown-only">
                                 <div class="circle-clipper left">
                                     <div class="circle"></div>
@@ -39,6 +39,9 @@
                                 </div>
                             </div>
                         </div>
+                        <div v-if="t.synchronizingStatus == 'failed'">
+                            <a class="btn brown" @click="reSync(t.id)"><i class="material-icons">replay</i></a>
+                        </div>
                     </td>
                 </tr>
                 </tbody>
@@ -47,7 +50,12 @@
     </div>
 </template>
 <script>
-    import {TodoQuery, MakeTodoDoneCommand, TodoRepositoryChanged} from '../../../target/scala-2.12/scalajstodo-fastopt'
+    import {
+        TodoQuery,
+        MakeTodoDoneCommand,
+        ResynchronizeTodoCommand,
+        TodoRepositoryChanged
+    } from '../../../target/scala-2.12/scalajstodo-fastopt'
 
     export default {
         beforeCreate(){
@@ -56,7 +64,8 @@
 
         created(){
             this.subscription = TodoRepositoryChanged.subscribe(() => {
-                this.todos = this.todoQuery.all()
+                this.todos = this.todoQuery.all();
+                console.log(this.todos);
             });
         },
 
@@ -67,6 +76,10 @@
         methods:{
             makeDone(id){
                 const command = new MakeTodoDoneCommand();
+                command.execute(id);
+            },
+            reSync(id){
+                const command = new ResynchronizeTodoCommand();
                 command.execute(id);
             }
         },

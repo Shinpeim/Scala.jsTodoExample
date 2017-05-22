@@ -41,6 +41,11 @@ class TodoRepositoryImpl extends TodoRepository{
     TodoRepositoryChanged.fire()
   }
 
+  def sync(todo: Todo): Future[Boolean] = {
+    store(todo.synchronize)
+    requestAddToBackend(todo)
+  }
+
   def all = companion.inMemoryRecords
 
   private def add(todo: Todo): Unit = {

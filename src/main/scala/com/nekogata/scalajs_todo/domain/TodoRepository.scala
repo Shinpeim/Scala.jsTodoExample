@@ -13,5 +13,7 @@ trait TodoRepository {
 
   def destroy(todo: Todo): Unit
 
+  def sync(todo: Todo): Future[Boolean]
+
   def all(): Seq[Todo]
 }
