@@ -1,6 +1,7 @@
 package com.nekogata.scalajs_todo.usecase.command.add_todo
 
 import org.threeten.bp.LocalDate
+import org.threeten.bp.format.DateTimeParseException
 
 trait Command {
   protected val addTodoService: Service
@@ -24,16 +25,17 @@ trait Command {
       dueDate
       true
     } catch {
-      case _:Throwable => false
+      case _:DateTimeParseException => false
     }
     ret
   }
-
-  def execute() = addTodoService.execute(this)
 
   def isExecutable = isTodoInputValid && isDueDateInputValid
 
   def dueDate = {
     LocalDate.parse(dueDateInput)
   }
+
+
+  def execute() = addTodoService.execute(this)
 }
