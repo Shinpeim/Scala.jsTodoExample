@@ -1,10 +1,6 @@
 package com.nekogata.scalajs_todo.usecase.command.add_todo
 
 import com.nekogata.scalajs_todo.domain.{Todo, TodoRepository, TodoSynchronizer}
-import com.nekogata.scalajs_todo.js_bridge.SynchronizeFailed
-
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.util.Failure
 
 trait Service {
   protected val repository: TodoRepository
