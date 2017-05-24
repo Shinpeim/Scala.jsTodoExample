@@ -7,13 +7,9 @@ trait TodoRepository {
 
   def find(id: Int): Option[Todo]
 
-  def storeThenSync(todo: Todo): Future[Boolean]
-
   def store(todo: Todo): Unit
 
   def destroy(todo: Todo): Unit
-
-  def sync(todo: Todo): Future[Boolean]
 
   def all(): Seq[Todo]
 }

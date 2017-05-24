@@ -18,16 +18,6 @@ class TodoRepositoryImpl extends TodoRepository{
 
   def find(id: Int) = companion.inMemoryRecords.find(_.id == id)
 
-  def storeThenSync(todo: Todo): Future[Boolean] = {
-    val f = find(todo.id) match {
-      case Some(_) => updateThenSync(todo)
-      case None => addThenSync(todo)
-    }
-    TodoRepositoryChanged.fire()
-
-    f
-  }
-
   def store(todo: Todo): Unit = {
     val f = find(todo.id) match {
       case Some(_) => update(todo)
@@ -39,11 +29,6 @@ class TodoRepositoryImpl extends TodoRepository{
   def destroy(todo: Todo): Unit = {
     remove(todo)
     TodoRepositoryChanged.fire()
-  }
-
-  def sync(todo: Todo): Future[Boolean] = {
-    store(todo.synchronize)
-    requestAddToBackend(todo)
   }
 
   def all = companion.inMemoryRecords
@@ -62,51 +47,8 @@ class TodoRepositoryImpl extends TodoRepository{
     add(todo)
   }
 
-  private def addThenSync(todo: Todo): Future[Boolean] = {
-    companion.inMemoryRecords = companion.inMemoryRecords ++ Seq(todo)
-    requestAddToBackend(todo)
-  }
-
-  private def requestAddToBackend(todo: Todo):Future[Boolean] = {
-    maybeFail
-  }
-
-  private def updateThenSync(todo: Todo): Future[Boolean] = {
-    val oldTodoOpt = companion.inMemoryRecords.find(_.id == todo.id)
-    if (oldTodoOpt.isEmpty) {
-      return Future.failed(new RuntimeException("no such record"))
-    }
-    val oldTodo = oldTodoOpt.get
-
-    remove(todo)
-    add(todo)
-    requestUpdateToBackend(todo)
-  }
-
-  private def requestUpdateToBackend(todo:Todo): Future[Boolean] = {
-    maybeFail
-  }
-
   private def remove(todo: Todo): Unit = {
     companion.inMemoryRecords = companion.inMemoryRecords.filterNot(_.id == todo.id)
-  }
-
-  // 10回に一回くらいの確立で失敗する非同期リクエスト
-  private def maybeFail: Future[Boolean] = {
-    import scala.scalajs.js.timers._
-    val p = Promise[Boolean]()
-
-    setTimeout(1000) {
-      val r = new Random
-
-      if ( r.nextInt(10) == 1 ) {
-        p.success(false)
-      } else {
-        p.success(true)
-      }
-    }
-
-    return p.future
   }
 }
 

@@ -26,7 +26,7 @@
                         <a v-else class="btn brown" @click="makeDone(t.id)"><i class="material-icons">done</i></a>
                     </td>
                     <td>
-                        <div class="preloader-wrapper small active" v-if="t.synchronizingStatus == 'synchronizing'">
+                        <div class="preloader-wrapper small active" v-if="t.isSynchronizing">
                             <div class="spinner-layer spinner-brown-only">
                                 <div class="circle-clipper left">
                                     <div class="circle"></div>
@@ -39,7 +39,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div v-if="t.synchronizingStatus == 'failed'">
+                        <div v-if="t.isSynchronizeNeeded">
                             <a class="btn brown" @click="reSync(t.id)"><i class="material-icons">replay</i></a>
                         </div>
                     </td>

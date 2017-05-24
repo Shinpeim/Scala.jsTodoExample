@@ -10,13 +10,18 @@ case class Todo(
   done: Boolean,
   synchronizingStatus: SynchronizingStatus){
 
-  def makeDone: Todo = copy(done = true, synchronizingStatus = Synchronizing)
+  def makeDone: Todo = copy(done = true, synchronizingStatus = UpdatedLocally)
 
-  def synchronized = copy(synchronizingStatus = Synchronized)
+  def startSync = copy(synchronizingStatus = Synchronizing)
 
-  def synchronizeFailed = copy(synchronizingStatus = SynchronizingFailed)
+  def finishSync = copy(synchronizingStatus = Synchronized)
 
-  def synchronize = copy(synchronizingStatus = Synchronizing)
+  def isSynchronizing = synchronizingStatus == Synchronizing
+
+  def isSynchronizeNeeded = (
+    synchronizingStatus == CreatedLocally ||
+    synchronizingStatus == UpdatedLocally
+  )
 
   def isOverdue: Boolean = {
     if ( done ) {
@@ -34,6 +39,6 @@ object Todo{
     dueDate,
     LocalDateTime.now,
     done = false,
-    synchronizingStatus = Synchronizing
+    synchronizingStatus = CreatedLocally
   )
 }
