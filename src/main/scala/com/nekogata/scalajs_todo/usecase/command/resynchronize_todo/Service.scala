@@ -12,10 +12,7 @@ trait Service {
 
   def execute(id: Int) = {
     repository.find(id).foreach {todo =>
-      synchronizer.sync(todo).onComplete {
-        case Failure(_) => SynchronizeFailed.fire()
-        case _ => ()
-      }
+      synchronizer.sync(todo)
     }
   }
 }

@@ -1,5 +1,7 @@
 package com.nekogata.scalajs_todo.domain
 
+import com.nekogata.scalajs_todo.js_bridge.SynchronizeFailed
+
 import scala.concurrent.Future
 import scala.util.{Failure, Success}
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -15,8 +17,11 @@ trait TodoSynchronizer {
     val result = syncRequest(todo)
 
     result.onComplete {
-      case Success(()) => repository.store(todo.finishSync)
-      case Failure(_) => repository.store(oldTodo)
+      case Success(()) =>
+        repository.store(todo.finishSync)
+      case Failure(_) =>
+        SynchronizeFailed.fire()
+        repository.store(oldTodo)
     }
 
     result

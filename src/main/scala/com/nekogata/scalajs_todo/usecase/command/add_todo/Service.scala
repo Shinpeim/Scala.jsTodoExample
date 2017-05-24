@@ -22,9 +22,6 @@ trait Service {
     )
 
     repository.store(todo)
-    synchronizer.sync(todo).onComplete {
-      case Failure(_) => SynchronizeFailed.fire()
-      case _ => ()
-    }
+    synchronizer.sync(todo)
   }
 }

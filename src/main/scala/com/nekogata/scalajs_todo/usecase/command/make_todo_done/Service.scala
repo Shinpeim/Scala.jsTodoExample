@@ -14,11 +14,7 @@ trait Service {
     repository.find(id).foreach {oldTodo =>
       val doneTodo = oldTodo.makeDone
       repository.store(doneTodo)
-
-      synchronizer.sync(doneTodo).onComplete {
-        case Failure(_) => SynchronizeFailed.fire()
-        case _ => ()
-      }
+      synchronizer.sync(doneTodo)
     }
   }
 }
